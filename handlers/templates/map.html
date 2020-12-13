@@ -61,34 +61,6 @@
                         subdomains: ["server", "services"],
                         label: "ESRI Topo"
                     }
-                ),
-                L.tileLayer(
-                    "//server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-                    {
-                        attribution:
-                            "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
-                        label: "ESRI Imagery"
-                    }
-                ),
-                L.tileLayer(
-                    "//{s}.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
-                    {
-                        attribution:
-                            "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ",
-                        maxZoom: 16,
-                        subdomains: ["server", "services"],
-                        label: "ESRI Gray"
-                    }
-                ),
-                L.tileLayer(
-                    "//{s}.arcgisonline.com/arcgis/rest/services/Elevation/World_Hillshade/MapServer/tile/{z}/{y}/{x}",
-                    {
-                        attribution:
-                            "Esri, USGS, NGA, NASA, CGIAR, N Robinson, NCEAS, NLS, OS, NMA, Geodatastyrelsen, Rijkswaterstaat, GSA, Geoland, FEMA, Intermap and the GIS user community",
-                        maxZoom: 23,
-                        subdomains: ["server", "services"],
-                        label: "ESRI Elevation"
-                    }
                 )
             ];
 
@@ -126,6 +98,17 @@
             });
 
             map.addLayer(layer);
+            map.maxZoom = 12;
+            map.minZoom = 1;
+    
+            function showPosition(position) {
+                map.setView([position.coords.latitude , position.coords.longitude ], 10);
+            }
+    
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            }
+            map.setView([37.02,-102.15], 6);
 
             var legendJSON = tileJSON.legend;
             if (legendJSON && legendJSON.search(/\{/) === 0) {
